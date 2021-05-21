@@ -12,7 +12,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class KafkaProducerAM {
-    private static final String DICTIONARY = "english10000.txt";
+    private static final String DICTIONARY = "crsto10.txt";
     private static final String PROPERTIES = "producer.properties";
     private static final String TOPIC = "samsung";
 
@@ -20,15 +20,12 @@ public class KafkaProducerAM {
         List<String> words = Files.readAllLines(Paths.get(DICTIONARY));
 
         Properties properties = new Properties();
-        try (InputStream input = new FileInputStream(PROPERTIES)) {
-            properties.load(input);
-        }
+        properties.load(new FileInputStream(PROPERTIES));
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
         System.out.println("Press ENTER to start");
-        Scanner in = new Scanner(System.in);
-        in.nextLine();
+        new Scanner(System.in).nextLine();
 
         for (String word : words) {
             System.out.println("Sending " + word);
