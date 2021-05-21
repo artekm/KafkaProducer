@@ -20,12 +20,15 @@ public class KafkaProducerAM {
         List<String> words = Files.readAllLines(Paths.get(DICTIONARY));
 
         Properties properties = new Properties();
-        properties.load(new FileInputStream(PROPERTIES));
+        try (InputStream input = new FileInputStream(PROPERTIES)) {
+            properties.load(input);
+        }
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
         System.out.println("Press ENTER to start");
-        new Scanner(System.in).nextLine();
+        Scanner in = new Scanner(System.in);
+        in.nextLine();
 
         for (String word : words) {
             System.out.println("Sending " + word);
